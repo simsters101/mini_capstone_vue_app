@@ -8,10 +8,14 @@
     <div v-for="product in products">
       <p>{{product.name}}</p>
       <p>{{product.price}}</p>
-      <img v-bind:src="product.image_url" alt="product.name">
+      <img v-bind:src="product.image_url" alt="product.name" width="300px">
       <p><button v-on:click="changeCurrentProduct(product)">Show More Info</button></p>
       <div v-if="currentProduct === product">
         <p>{{product.description}}</p>
+        <p>Name: <input type="text" v-model="product.name"></p>
+        <p>Price: <input type="number" v-model="product.price"></p>
+        <p>Description: <input type="text" v-model="product.description"></p>
+        <button v-on:click="updateProduct(product)">Update Product</button>
       </div>
       <hr>
     </div>
@@ -42,14 +46,12 @@ export default {
   },
   methods: {
     createNewProduct: function() {
-      console.log("i am in createNewProduct");
       var newProduct = {
         name: this.name,
         price: this.price,
         description: this.description
       };
       axios.post("/api/products", newProduct).then(response => {
-        console.log("in the callback for create");
         console.log(response.data);
         this.products.push(response.data);
       });
@@ -58,8 +60,15 @@ export default {
       this.description = "";
     },
     changeCurrentProduct: function(theProduct) {
-      console.log("i am in changeCurrentProduct");
       this.currentProduct = theProduct;
+    },
+    updateProduct: function(theProduct) {
+      axios.patch("/api/products/" + theProduct.id, theProduct).then(response => {
+        console.log(response.data);
+        theProduct.name = response.data.name;
+        theProduct.price = response.data.price;
+        theProduct.description = response.data.description;
+      });
     }
   }
 };
