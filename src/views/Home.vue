@@ -16,6 +16,8 @@
         <p>Price: <input type="number" v-model="product.price"></p>
         <p>Description: <input type="text" v-model="product.description"></p>
         <button v-on:click="updateProduct(product)">Update Product</button>
+      <br>
+      <p><button v-on:click="deleteProduct(product)">Delete Product</button></p>
       </div>
       <hr>
     </div>
@@ -68,6 +70,14 @@ export default {
         theProduct.name = response.data.name;
         theProduct.price = response.data.price;
         theProduct.description = response.data.description;
+      });
+    },
+    deleteProduct: function(theProduct) {
+      console.log("in deleteProduct");
+      axios.delete("/api/products/" + theProduct.id).then(response => {
+        console.log(response.data);
+        var index = this.products.indexOf(theProduct);
+        this.products.splice(index, 1);
       });
     }
   }
