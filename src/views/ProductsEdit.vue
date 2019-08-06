@@ -1,12 +1,6 @@
 <template>
   <div class="home">
-    <h1>{{ message }}</h1>
-    <p>{{ product.name }}</p>
-    <p><img v-bind:src="product.image_url" alt="product.name" width="300px"></p>
-    <p>${{ product.price }}0</p>
-    <p>{{ product.description }}</p>
-    <p><button v-on:click="redirectToEdit(product)">Edit Product</button></p>
-    <p><button v-on:click="deleteProduct(product)">Delete Product</button></p>
+    <!-- <input type="text" v-model=""> -->
   </div>
 </template>
 
